@@ -120,6 +120,12 @@ app.post('/editar/:id', (req, res) => {
         let novoSalario = salarioAntigo;
         let teveAlteracao = false;
 
+        //bloqueia alteração se inativo
+        if (row.status === 'Inativo') {
+             console.log("Tentativa de alterar inativo bloqueada.");
+             return res.redirect('/'); 
+        }
+
         //regra da porcentagem
         if (percentualAumento > 0) {
             novoSalario = salarioAntigo + (salarioAntigo * (percentualAumento / 100));

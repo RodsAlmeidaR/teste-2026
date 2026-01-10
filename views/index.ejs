@@ -77,30 +77,30 @@
 
     <script>
         function inativarColaborador(id) {
-            // confirmação simples
+            //confirmação simples
             if (!confirm('Tem certeza que deseja inativar este colaborador?')) {
                 return;
             }
 
-            // envia o comando para o servidor
+            //envia o comando para o servidor
             fetch('/inativar/' + id, {
                 method: 'POST'
             })
-            .then(response => response.json()) // converte a resposta para JSON
+            .then(response => response.json()) //converte a resposta para JSON
             .then(data => {
                 if (data.success) {
                     //sucesso
                     
-                    // muda a cor e o texto do badge
+                    //muda a cor e o texto do badge
                     const badge = document.getElementById('status-badge-' + id);
                     badge.className = 'badge bg-danger';
                     badge.innerText = 'Inativo';
 
-                    // insere a data recebida do servidor
+                    //insere a data recebida do servidor
                     const spanData = document.getElementById('data-inativacao-' + id);
                     if(spanData) spanData.innerText = data.data;
 
-                    // desabilita o botão para não clicar de novo
+                    //desabilita o botão para não clicar de novo
                     const btn = document.getElementById('btn-inativar-' + id);
                     if (btn) {
                         btn.className = 'btn btn-secondary btn-sm';
