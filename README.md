@@ -4,7 +4,7 @@ Sistema web desenvolvido para o gerenciamento de colaboradores. O projeto permit
 
 ## Tecnologias Utilizadas
 
-* **Node.js** (v24.12.0) - Ambiente de execução Javascript.
+* **Node.js** (v24.12.0)
 * **Express** - Framework web para o backend.
 * **SQLite3** - Banco de dados relacional leve (armazenado em arquivo local).
 * **EJS** - Motor de visualização (View Engine) para o frontend.
