@@ -9,7 +9,7 @@ const db = new sqlite3.Database('./cristalia_funcionarios.db', (err) => {
     }
 });
 
-//tabela
+//tabela colaboradores
 db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS colaboradores (
@@ -24,6 +24,17 @@ db.serialize(() => {
         data_desativacao TEXT
     )`);
 });
+
+//tabela historico de salarios
+db.run(`
+        CREATE TABLE IF NOT EXISTS historico_salarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        colaborador_id INTEGER,
+        salario_anterior REAL,
+        salario_novo REAL,
+        data_alteracao TEXT,
+        motivo TEXT
+    )`);
 
 //inserindo os 5 colaboradores
 db.get("SELECT COUNT(*) AS count FROM colaboradores", (err, row) => {
