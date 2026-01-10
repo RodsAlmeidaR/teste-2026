@@ -56,6 +56,33 @@ app.post('/salvar', (req, res) => {
     });
 });
 
+// rota para inativar (AJAX)
+app.post('/inativar/:id', (req, res) => {
+    const id = req.params.id;
+    
+    // gera a data atual formatada
+    const dataAtual = new Date().toLocaleString('pt-BR'); 
+
+    // atualiza status e data
+    const sql = `UPDATE colaboradores SET status = 'Inativo', data_desativacao = ? WHERE id = ?`;
+
+    db.run(sql, [dataAtual, id], function(err) {
+        if (err) {
+            console.error("Erro ao inativar:", err.message);
+            // Retorna erro 500 para o frontend saber que falhou
+            return res.status(500).json({ success: false, message: err.message });
+        }
+        
+        // responde com JSON para o JavaScript do navegador atualizar a tela
+        res.json({ 
+            success: true, 
+            id: id, 
+            novoStatus: 'Inativo',
+            data: dataAtual
+        });
+    });
+});
+
 //incia o servidor
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);

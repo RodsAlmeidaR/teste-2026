@@ -29,30 +29,39 @@
                             <th>Salário (R$)</th>
                             <th>Empresa</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Deletar</th>
+                            <th class="text-center">Ações</th>
                             <th class="text-center">Editar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% colaboradores.forEach(function(colaborador) { %>
-                            <tr>
+                            <tr id="linha-<%= colaborador.id %>">
                                 <td><%= colaborador.nome %></td>
                                 <td><%= colaborador.re %></td>
                                 <td><%= colaborador.cargo %></td>
                                 <td>R$ <%= colaborador.salario_atual.toFixed(2) %></td>
                                 <td><%= colaborador.empresa %></td>
+                                
                                 <td class="text-center">
-                                    <span class="badge <%= colaborador.status === 'Ativo' ? 'bg-success' : 'bg-danger' %>">
+                                    <span id="status-badge-<%= colaborador.id %>" 
+                                          class="badge <%= colaborador.status === 'Ativo' ? 'bg-success' : 'bg-danger' %>">
                                         <%= colaborador.status %>
                                     </span>
+                                    <small id="data-inativacao-<%= colaborador.id %>" class="d-block text-muted" style="font-size: 0.75em;">
+                                        <%= colaborador.data_desativacao ? colaborador.data_desativacao : '' %>
+                                    </small>
                                 </td>
                                 
                                 <td class="text-center">
-                                    <a href="/deletar/<%= colaborador.id %>" 
-                                       class="btn btn-danger btn-sm" 
-                                       onclick="return confirm('Tem certeza que deseja deletar este colaborador?');">
-                                        Deletar
-                                    </a>
+                                    <% if (colaborador.status === 'Ativo') { %>
+                                        <button id="btn-inativar-<%= colaborador.id %>"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="inativarColaborador(<%= colaborador.id %>)">
+                                            Inativar
+                                        </button>
+                                    <% } else { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Inativado</button>
+                                    <% } %>
                                 </td>
 
                                 <td class="text-center">
@@ -65,5 +74,50 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function inativarColaborador(id) {
+            // confirmação simples
+            if (!confirm('Tem certeza que deseja inativar este colaborador?')) {
+                return;
+            }
+
+            // envia o comando para o servidor
+            fetch('/inativar/' + id, {
+                method: 'POST'
+            })
+            .then(response => response.json()) // converte a resposta para JSON
+            .then(data => {
+                if (data.success) {
+                    //sucesso
+                    
+                    // muda a cor e o texto do badge
+                    const badge = document.getElementById('status-badge-' + id);
+                    badge.className = 'badge bg-danger';
+                    badge.innerText = 'Inativo';
+
+                    // insere a data recebida do servidor
+                    const spanData = document.getElementById('data-inativacao-' + id);
+                    if(spanData) spanData.innerText = data.data;
+
+                    // desabilita o botão para não clicar de novo
+                    const btn = document.getElementById('btn-inativar-' + id);
+                    if (btn) {
+                        btn.className = 'btn btn-secondary btn-sm';
+                        btn.innerText = 'Inativado';
+                        btn.disabled = true;
+                    }
+
+                } else {
+                    alert('Erro ao inativar: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro na comunicação com o servidor.');
+            });
+        }
+    </script>
+
 </body>
 </html>
