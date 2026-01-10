@@ -9,18 +9,18 @@
 
 <body class="bg-light">
     
-    <div class="container mt-05">
+    <div class="container mt-5">
         <h1 class="text-center mb-4 text-primary">Gestão de Colaboradores</h1>
 
         <div class="d-flex justify-content-end mb-3">
-            <a href="/adicionar" class ="btn btn-success">
+            <a href="/adicionar" class="btn btn-success">
                 + Novo Colaborador
             </a>
         </div>
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped align-middle">
                     <thead class="table-dark">
                         <tr>
                             <th>Nome</th>
@@ -28,28 +28,34 @@
                             <th>Cargo</th>
                             <th>Salário (R$)</th>
                             <th>Empresa</th>
-                            <th>Status</th>
-                            <th>Ações</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Deletar</th>
+                            <th class="text-center">Editar</th>
                         </tr>
-                    </thred>
+                    </thead>
                     <tbody>
                         <% colaboradores.forEach(function(colaborador) { %>
                             <tr>
                                 <td><%= colaborador.nome %></td>
                                 <td><%= colaborador.re %></td>
                                 <td><%= colaborador.cargo %></td>
-                                <td><%= colaborador.salario_atual.toFixed(2) %></td>
+                                <td>R$ <%= colaborador.salario_atual.toFixed(2) %></td>
                                 <td><%= colaborador.empresa %></td>
-                                <td><%= colaborador.status %></td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge <%= colaborador.status === 'Ativo' ? 'bg-success' : 'bg-danger' %>">
                                         <%= colaborador.status %>
                                     </span>
                                 </td>
-                                <td>
-                                    <a href="/deletar/<%= colaborador.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza?');">Deletar</a>
+                                
+                                <td class="text-center">
+                                    <a href="/deletar/<%= colaborador.id %>" 
+                                       class="btn btn-danger btn-sm" 
+                                       onclick="return confirm('Tem certeza que deseja deletar este colaborador?');">
+                                        Deletar
+                                    </a>
                                 </td>
-                                <td>
+
+                                <td class="text-center">
                                     <button class="btn btn-sm btn-warning">Editar</button>
                                 </td>
                             </tr>
