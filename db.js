@@ -29,7 +29,8 @@ db.serialize(() => {
 db.get("SELECT COUNT(*) AS count FROM colaboradores", (err, row) => {
     if (row.count === 0) {
         console.log("Banco vazio, inserindo dados iniciais...");
-        const sqlInsert = `Insert INTO colaborados (nome, re, cargo, salario_atual, salario_anterior, empresa) VALUES (?, ?, ?, ?, ?, ?)`;
+        // fix: 'colaboradores' e trocado 'salario_anterior' por 'status' para bater com os dados
+        const sqlInsert = `INSERT INTO colaboradores (nome, re, cargo, salario_atual, status, empresa) VALUES (?, ?, ?, ?, ?, ?)`;
         const funcionarios = [
             ["João Silva", "1001", "Analista Jr", 2500.00, "Ativo", "Cristália"],
             ["Maria Oliveira", "1002", "Gerente", 8000.00, "Ativo", "Cristália"],
