@@ -11,7 +11,7 @@ Sistema web desenvolvido para o gerenciamento de colaboradores. O projeto permit
 * **Bootstrap 5** - Framework CSS para estilização e responsividade.
 * **AJAX (Fetch API)** - Para atualizações assíncronas (Inativação sem recarregar a página).
 
-#Instalações
+## Instalações
 
 npm install - para instalar tudo no package.json
 
