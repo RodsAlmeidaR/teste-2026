@@ -10,3 +10,11 @@ Sistema web desenvolvido para o gerenciamento de colaboradores. O projeto permit
 * **EJS** - Motor de visualização (View Engine) para o frontend.
 * **Bootstrap 5** - Framework CSS para estilização e responsividade.
 * **AJAX (Fetch API)** - Para atualizações assíncronas (Inativação sem recarregar a página).
+
+#Instalações
+
+npm install - para instalar tudo no package.json
+
+* **Caso precise instalar manualmente**
+  npm install express@5.2.1 sqlite3@5.1.7 body-parser@2.2.2 ejs@3.1.10
+  
